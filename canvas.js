@@ -18,11 +18,11 @@ window.addEventListener('resize', function () {
 // Star setup
 var starArray = [];
 var starColorArray = [
+  '#ffd4bd',
   '#FFF4D9',
   '#D0E6D9',
   '#8FBDBF',
   '#57A6BB',
-  '#4583AB',
 ];
 
 // Space ship / space shuttle setup
@@ -75,16 +75,20 @@ function Ship(x, y, dy, height) {
 
     // Ship animation
     if (this.y > ((innerHeight / 2) - (this.height / 2))) {
+
       // Ship increased acceleration for launch
       if (this.y > (innerHeight - (innerHeight / 2) + (this.height / 2))) {
         this.y -= this.dy * 3;
       }
+
       // Ship standard acceleration for leaving atmosphere
       else {
         this.y -= this.dy * 1.5;
       }
+
       this.draw();
     }
+
     // Ship resting upon space entry
     else {
       this.draw();
