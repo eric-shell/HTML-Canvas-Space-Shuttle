@@ -3,5 +3,17 @@ body {
     margin: 0;
     height: 100%;
     /* TODO add browser prefixes */
-    background: linear-gradient(-45deg, #1d1e24, #23242a);
+    animation: 4s sky ease-out forwards;
+}
+
+@keyframes sky {
+    0% {
+        background: skyblue;
+    }
+    25% {
+        background: skyblue;
+    }
+    100% {
+        background: #1d1e24;
+    }
 }

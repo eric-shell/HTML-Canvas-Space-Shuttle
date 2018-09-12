@@ -53,7 +53,7 @@ function Star(x, y, dx, dy, radius) {
   // Star animation
   this.update = function () {
     this.x += this.dx;
-    this.y += this.dy * 20;
+    this.y += this.dy * 25;
     this.draw();
   }
 }
@@ -101,10 +101,10 @@ function init() {
 
   // Configure stars
   starArray = [];
-  for (var i = 0; i < 600; i++) {
+  for (var i = 0; i < 800; i++) {
     var starRadius = (Math.random() + .5) * 1.25;
-    var starX = Math.random() * (innerWidth - starRadius * 2) + starRadius;
-    var starY = (Math.random() * (-(innerHeight * 2) - starRadius * 2) + starRadius) - innerHeight;
+    var starX = Math.random() * (innerWidth * 2);
+    var starY = Math.random() * -(innerHeight * 2) - innerHeight;
     var starDx = (Math.random() - 0.5) * .15;
     var starDy = Math.random() * .5;
 
