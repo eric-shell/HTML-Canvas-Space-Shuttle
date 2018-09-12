@@ -65,10 +65,11 @@ function Star(x, y, dx, dy, radius) {
 }
 
 // Ship object
-function Ship(x, y, dy) {
+function Ship(x, y, dy, height) {
   this.x = x;
   this.y = y;
   this.dy = dy;
+  this.height = height;
 
   this.draw = function() {
     c.drawImage(ship, this.x, this.y);
@@ -76,10 +77,10 @@ function Ship(x, y, dy) {
 
   this.update = function() {
 
-  	if (this.y > ((innerHeight / 2) - 92)) {
+  	if (this.y > ((innerHeight / 2) - (this.height / 2))) {
 
   		// Ship increased acceleration for launch
-      if (this.y > (innerHeight - (innerHeight / 2) + 92)) {
+      if (this.y > (innerHeight - (innerHeight / 2) + (this.height / 2))) {
         this.y -= (this.dy * 2);
       }
 
@@ -114,11 +115,14 @@ function init() {
 
 	// Configure ship
   shipArray = [];
-	var shipX = (innerWidth / 2) - 57;
-	var shipY = (innerHeight - 184) - 25;
+	var shipWidth = 115;
+  var shipHeight = 184;
+  var shipStart = 25;
+	var shipX = (innerWidth / 2) - (shipWidth / 2);
+	var shipY = (innerHeight - shipHeight) - shipStart;
 	var shipDy = .5;
 
-  shipArray.push(new Ship(shipX, shipY, shipDy));
+  shipArray.push(new Ship(shipX, shipY, shipDy, shipHeight));
 }
 
 function draw() {
