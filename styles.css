@@ -3,5 +3,5 @@ body {
     margin: 0;
     height: 100%;
     /* TODO add browser prefixes */
-    background: linear-gradient(-45deg, #111111, #23242a);
+    background: linear-gradient(-45deg, #1d1e24, #23242a);
 }

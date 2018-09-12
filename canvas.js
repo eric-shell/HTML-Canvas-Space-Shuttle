@@ -103,22 +103,22 @@ function init() {
 	// Configure stars
 	starArray = [];
 	for (var i = 0; i < 400; i++) {
-		var radius = (Math.random() + .5) * 1.25;
-		var x = Math.random() * (innerWidth - radius * 2) + radius;
-		var y = (Math.random() * (innerHeight - radius * 2) + radius) - (innerHeight / 2);
-		var dx = (Math.random() - 0.5) * .15;
-		var dy = Math.random() * .5;
+		var starRadius = (Math.random() + .5) * 1.25;
+		var starX = Math.random() * (innerWidth - starRadius * 2) + starRadius;
+		var starY = (Math.random() * (innerHeight - starRadius * 2) + starRadius) - (innerHeight / 2);
+		var starDx = (Math.random() - 0.5) * .15;
+		var starDy = Math.random() * .5;
 
-		starArray.push(new Star(x, y, dx, dy, radius));
+		starArray.push(new Star(starX, starY, starDx, starDy, starRadius));
 	}
 
 	// Configure ship
   shipArray = [];
-	var x = (innerWidth / 2) - 57;
-	var y = (innerHeight - 184) - 25;
-	var dy = .5;
+	var shipX = (innerWidth / 2) - 57;
+	var shipY = (innerHeight - 184) - 25;
+	var shipDy = .5;
 
-  shipArray.push(new Ship(x, y, dy));
+  shipArray.push(new Ship(shipX, shipY, shipDy));
 }
 
 function draw() {
