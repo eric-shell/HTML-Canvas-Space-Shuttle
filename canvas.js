@@ -23,7 +23,7 @@ var starColorArray = [
 	'#8FBDBF',
 	'#57A6BB',
 	'#4583AB',
-]
+];
 
 // Space ship / space shuttle setup
 var shipArray = [];
@@ -62,12 +62,30 @@ function Ship(x, y, dy) {
   this.dy = dy;
 
   this.draw = function() {
-    c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 25));
-	}
+    c.drawImage(ship, this.x, this.y);
+	};
 
   this.update = function() {
-    this.y += this.dy;
-    this.draw();
+
+  	if (this.y > ((innerHeight / 2) - 92)) {
+
+  		// Ship increased acceleration for launch
+      if (this.y > (innerHeight - (innerHeight / 2) + 92)) {
+        this.y -= (this.dy * 2);
+      }
+
+      // Ship standard acceleration for leaving atmosphere
+      else {
+        this.y -= this.dy;
+			}
+
+      this.draw();
+    }
+
+    // Ship resting upon space entry
+    else {
+      this.draw();
+    }
   }
 }
 
@@ -89,7 +107,7 @@ function init() {
   shipArray = [];
 	var x = (innerWidth / 2) - 57;
 	var y = (innerHeight - 184) - 25;
-	var dy = .25;
+	var dy = .5;
 
   shipArray.push(new Ship(x, y, dy));
 }
@@ -97,7 +115,7 @@ function init() {
 function draw() {
 	requestAnimationFrame(draw);
 
-	// Clear canvas to prevent objects on the previous frames from being displayed
+	// Clear canvas to prevent objects from the previous frames from being displayed
 	c.clearRect(0, 0, innerWidth, innerHeight);
 
 	// Draw stars
@@ -108,7 +126,6 @@ function draw() {
 	// Draw ship
   for (var i = 0; i < shipArray.length; i++) {
     shipArray[i].update();
-    console.log(shipArray);
   }
 }
 
