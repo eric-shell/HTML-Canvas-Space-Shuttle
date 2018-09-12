@@ -13,14 +13,6 @@ var colorArray = [
 	'#4583AB',
 ]
 
-var earthAtmosphere = c.createLinearGradient(0, 0, 0, innerHeight);
-earthAtmosphere.addColorStop(0.000, 'rgba(10, 0, 178, 0)');
-earthAtmosphere.addColorStop(0.050, 'rgba(10, 0, 178, .1)');
-earthAtmosphere.addColorStop(0.150, 'rgba(255, 0, 0, .2)');
-earthAtmosphere.addColorStop(0.225, 'rgba(255, 255, 225, 1)');
-earthAtmosphere.addColorStop(0.250, 'rgba(153, 204, 255, 1)');
-earthAtmosphere.addColorStop(1.000, 'rgba(153, 204, 255, 1)');
-
 window.addEventListener('resize', function() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -74,9 +66,6 @@ function render() {
 	for (var i = 0; i < circleArray.length; i++) {
 		circleArray[i].update();
 	}
-
-	c.fillStyle = earthAtmosphere;
-	c.fillRect(0, 0, innerWidth, innerHeight);
 }
 
 init();
