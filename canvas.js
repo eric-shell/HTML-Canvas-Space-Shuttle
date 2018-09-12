@@ -53,7 +53,7 @@ function init() {
 
 	starArray = [];
 	for (var i = 0; i < 800; i++) {
-		var radius = (Math.random() + Math.random()) * 1.25;
+		var radius = (Math.random() + .5) * 1.25;
 		var x = Math.random() * (innerWidth - radius * 2) + radius;
 		var y = (Math.random() * (innerHeight - radius * 2) + radius) - (innerHeight / 2);
 		var dx = (Math.random() - 0.5) * .15;
@@ -69,11 +69,11 @@ function draw() {
 	requestAnimationFrame(draw);
 	c.clearRect(0, 0, innerWidth, innerHeight);
 
-  c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 50));
-
 	for (var i = 0; i < starArray.length; i++) {
 		starArray[i].update();
 	}
+
+  c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 50));
 }
 
 init();
