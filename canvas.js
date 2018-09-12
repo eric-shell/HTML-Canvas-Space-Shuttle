@@ -99,6 +99,7 @@ function Ship(x, y, dy, height) {
   }
 }
 
+// Set the initial values for all objects
 function init() {
 
   // Configure stars
@@ -125,6 +126,7 @@ function init() {
   shipArray.push(new Ship(shipX, shipY, shipDy, shipHeight));
 }
 
+// Begin the canvas sequence
 function draw() {
   requestAnimationFrame(draw);
 
@@ -142,6 +144,6 @@ function draw() {
   }
 }
 
-// Render canvas
+// Start
 init();
 draw();
