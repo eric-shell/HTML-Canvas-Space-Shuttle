@@ -51,6 +51,15 @@ function Star(x, y, dx, dy, radius) {
 	this.update = function() {
 		this.x += this.dx;
 		this.y += this.dy;
+
+    if (this.y > ((innerHeight / 2) - 92)) {
+      this.y += (this.dy * 5);
+    }
+
+    if (this.y > ((innerHeight / 4) - 92)) {
+      this.y += (this.dy * 15);
+    }
+
 		this.draw();
 	}
 }
