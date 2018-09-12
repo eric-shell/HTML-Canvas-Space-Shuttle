@@ -40,12 +40,14 @@ function Star(x, y, dx, dy, radius) {
   this.color = starColorArray[Math.floor(Math.random() * starColorArray.length)];
 
   this.draw = function () {
+    c.save();
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     c.fillStyle = this.color;
-    c.shadowBlur = this.radius * 4;
+    c.shadowBlur = this.radius * 5;
     c.shadowColor = this.color;
     c.fill();
+    c.restore();
   };
 
   this.update = function () {
@@ -71,7 +73,9 @@ function Ship(x, y, dy, height) {
   this.height = height;
 
   this.draw = function () {
+    c.save();
     c.drawImage(ship, this.x, this.y);
+    c.restore();
   };
 
   this.update = function () {
