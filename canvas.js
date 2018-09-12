@@ -26,10 +26,11 @@ var starColorArray = [
 ]
 
 // Space ship / space shuttle setup
+var shipArray = [];
 var ship = new Image();
 ship.src = "ship.png";
 
-// Star Object
+// Star object
 function Star(x, y, dx, dy, radius) {
 	this.x = x;
 	this.y = y;
@@ -48,12 +49,26 @@ function Star(x, y, dx, dy, radius) {
 	};
 
 	this.update = function() {
-
 		this.x += this.dx;
 		this.y += this.dy;
-
 		this.draw();
 	}
+}
+
+// Ship object
+function Ship(x, y, dy) {
+  this.x = x;
+  this.y = y;
+  this.dy = dy;
+
+  this.draw = function() {
+    c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 25));
+	}
+
+  this.update = function() {
+    this.y += this.dy;
+    this.draw();
+  }
 }
 
 function init() {
@@ -69,6 +84,14 @@ function init() {
 
 		starArray.push(new Star(x, y, dx, dy, radius));
 	}
+
+	// Configure ship
+  shipArray = [];
+	var x = (innerWidth / 2) - 57;
+	var y = (innerHeight - 184) - 25;
+	var dy = .25;
+
+  shipArray.push(new Ship(x, y, dy));
 }
 
 function draw() {
@@ -83,7 +106,10 @@ function draw() {
 	}
 
 	// Draw ship
-  c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 25));
+  for (var i = 0; i < shipArray.length; i++) {
+    shipArray[i].update();
+    console.log(shipArray);
+  }
 }
 
 // Render canvas
