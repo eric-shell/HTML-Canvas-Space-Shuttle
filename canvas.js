@@ -60,7 +60,7 @@ function init() {
 
 	// Configure stars
 	starArray = [];
-	for (var i = 0; i < 1500; i++) {
+	for (var i = 0; i < 400; i++) {
 		var radius = (Math.random() + .5) * 1.25;
 		var x = Math.random() * (innerWidth - radius * 2) + radius;
 		var y = (Math.random() * (innerHeight - radius * 2) + radius) - (innerHeight / 2);
@@ -83,7 +83,7 @@ function draw() {
 	}
 
 	// Draw ship
-  c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 50));
+  c.drawImage(ship, ((innerWidth / 2) - 57), ((innerHeight - 184) - 25));
 }
 
 // Render canvas
