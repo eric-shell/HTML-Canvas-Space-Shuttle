@@ -50,6 +50,7 @@ function Star(x, y, dx, dy, radius) {
     c.restore();
   };
 
+  // Star animation
   this.update = function () {
     this.x += this.dx;
     this.y += this.dy * 20;
@@ -72,15 +73,15 @@ function Ship(x, y, dy, height) {
 
   this.update = function () {
 
-    // Ship variable acceleration
+    // Ship animation
     if (this.y > ((innerHeight / 2) - (this.height / 2))) {
       // Ship increased acceleration for launch
       if (this.y > (innerHeight - (innerHeight / 2) + (this.height / 2))) {
-        this.y -= (this.dy * 2);
+        this.y -= this.dy * 3;
       }
       // Ship standard acceleration for leaving atmosphere
       else {
-        this.y -= this.dy;
+        this.y -= this.dy * 1.5;
       }
       this.draw();
     }
