@@ -52,14 +52,13 @@ function Star(x, y, dx, dy, radius) {
 		this.x += this.dx;
 		this.y += this.dy;
 
+    // Star variable acceleration
     if (this.y > ((innerHeight / 2) - 92)) {
       this.y += (this.dy * 5);
     }
-
     if (this.y > ((innerHeight / 4) - 92)) {
       this.y += (this.dy * 15);
     }
-
 		this.draw();
 	}
 }
@@ -77,21 +76,18 @@ function Ship(x, y, dy, height) {
 
   this.update = function() {
 
+  	// Ship variable acceleration
   	if (this.y > ((innerHeight / 2) - (this.height / 2))) {
-
   		// Ship increased acceleration for launch
       if (this.y > (innerHeight - (innerHeight / 2) + (this.height / 2))) {
         this.y -= (this.dy * 2);
       }
-
       // Ship standard acceleration for leaving atmosphere
       else {
         this.y -= this.dy;
 			}
-
       this.draw();
     }
-
     // Ship resting upon space entry
     else {
       this.draw();
