@@ -4,7 +4,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var c = canvas.getContext('2d');
-var circleArray = [];
+var starArray = [];
 var colorArray = [
 	'#FFF4D9',
 	'#D0E6D9',
@@ -20,18 +20,20 @@ window.addEventListener('resize', function() {
 	init();
 })
 
-function Circle(x, y, dx, dy, radius) {
+function Star(x, y, dx, dy, radius) {
 	this.x = x;
 	this.y = y;
-	this.dx = dx
+	this.dx = dx;
 	this.dy = dy;
-	this.radius = radius
-	this.color = colorArray[Math.floor(Math.random() * colorArray.length)]
+	this.radius = radius;
+	this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
 	this.draw = function() {
 		c.beginPath();
 		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 		c.fillStyle = this.color;
+    c.shadowBlur = this.radius * 4;
+    c.shadowColor = '#fff';
 		c.fill();
 	}
 
@@ -46,16 +48,16 @@ function Circle(x, y, dx, dy, radius) {
 
 function init() {
 
-	circleArray = [];
+	starArray = [];
 
 	for (var i = 0; i < 800; i++) {
-		var radius = Math.random() * 1.15 + .5;
+		var radius = (Math.random() + Math.random()) * 1.25;
 		var x = Math.random() * (innerWidth - radius * 2) + radius;
 		var y = (Math.random() * (innerHeight - radius * 2) + radius) - (innerHeight / 2);
 		var dx = Math.random() * .15;
 		var dy = Math.random() * .5;
 
-		circleArray.push(new Circle(x, y, dx, dy, radius));
+		starArray.push(new Star(x, y, dx, dy, radius));
 	}
 }
 
@@ -63,8 +65,8 @@ function render() {
 	requestAnimationFrame(render);
 	c.clearRect(0, 0, innerWidth, innerHeight);
 
-	for (var i = 0; i < circleArray.length; i++) {
-		circleArray[i].update();
+	for (var i = 0; i < starArray.length; i++) {
+		starArray[i].update();
 	}
 }
 
