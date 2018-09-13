@@ -1,18 +1,28 @@
 // Canvas setup
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
+var w = window.innerWidth;
+var h = window.innerHeight;
 
 // Set canvas element to viewport size on load
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = w;
+canvas.height = h;
 
-// Update canvas element to viewport size when altered
-window.addEventListener('resize', function () {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// Update canvas element to viewport size when resized
+window.onresize = function(){
+  canvas.width = w = window.innerWidth;
+  canvas.height = h = window.innerHeight;
+};
 
-  // Re-init to prevent an empty void display in the new areas
-  init();
+// User controls
+var keys = [];
+
+document.addEventListener('keydown', function (e) {
+  keys[e.which] = true;
+});
+
+document.addEventListener('keyup', function (e) {
+  keys[e.which] = false;
 });
 
 // Star setup
@@ -24,11 +34,6 @@ var starColorArray = [
   '#8FBDBF',
   '#57A6BB',
 ];
-
-// Space ship / space shuttle setup
-var shipArray = [];
-var ship = new Image();
-ship.src = 'ship.png';
 
 // Star object
 function Star(x, y, dx, dy, radius) {
@@ -53,47 +58,76 @@ function Star(x, y, dx, dy, radius) {
   // Star animation
   this.update = function () {
     this.x += this.dx;
-    this.y += this.dy * 15;
+    this.y += this.dy * 12.5;
     this.draw();
   }
 }
 
-// Ship object
-function Ship(x, y, dy, height) {
-  this.x = x;
-  this.y = y;
-  this.dy = dy;
-  this.height = height;
+// Space ship / space shuttle setup
+var shipImage = new Image();
+shipImage.src = 'ship.png';
+var shipWidth = 115;
+var shipHeight = 184;
 
-  this.draw = function () {
+var ship = {
+  x: w / 2, y: h,
+  vx: 0, vy: -4,
+  ax: 0, ay: 0,
+  r: -90 * Math.PI / 180,
+
+  draw: function () {
     c.save();
-    c.drawImage(ship, this.x, this.y);
+    c.translate(this.x, this.y);
+    c.rotate(this.r);
+    c.rotate(90 * Math.PI / 180);
+    c.drawImage(shipImage, -(shipWidth / 2), -(shipHeight / 2));
     c.restore();
-  };
-
-  this.update = function () {
-
-    // Ship animation
-    if (this.y > ((innerHeight / 2) - (this.height / 2))) {
-
-      // Ship increased acceleration for launch
-      if (this.y > (innerHeight - (innerHeight / 2) + (this.height / 2))) {
-        this.y -= this.dy * 3;
-      }
-
-      // Ship standard acceleration for leaving atmosphere
-      else {
-        this.y -= this.dy * 1.5;
-      }
-
-      this.draw();
-    }
-
-    // Ship resting upon space entry
-    else {
-      this.draw();
-    }
   }
+};
+
+function updateShipPosition(obj) {
+
+  // Update velocity
+  obj.vx += obj.ax;
+  obj.vy += obj.ay;
+
+  applyFriction(obj);
+
+  // Update position
+  obj.x += obj.vx;
+  obj.y += obj.vy;
+
+  // When the ship exits the viewport send it to the parallel side
+  if (obj.x < 0) {
+    obj.x = w;
+  }
+  if (obj.x > w) {
+    obj.x = 0;
+  }
+  if (obj.y < 0) {
+    obj.y = h;
+  }
+  if (obj.y > h) {
+    obj.y = 0;
+  }
+}
+
+var friction = 0.02;
+
+function applyFriction(obj) {
+
+  var speed = Math.sqrt(obj.vx * obj.vx + obj.vy * obj.vy);
+  var angle = Math.atan2(obj.vy, obj.vx);
+
+  if (speed > friction) {
+    speed -= friction;
+  } else {
+    speed = 0;
+  }
+
+  // Apply friction
+  obj.vx = Math.cos(angle) * speed;
+  obj.vy = Math.sin(angle) * speed;
 }
 
 // Set the initial values for all objects
@@ -103,24 +137,13 @@ function init() {
   starArray = [];
   for (var i = 0; i < 800; i++) {
     var starRadius = (Math.random() + .5) * 1.25;
-    var starX = Math.random() * (innerWidth * 2);
-    var starY = Math.random() * -(innerHeight * 3) - innerHeight;
+    var starX = Math.random() * (w * 2);
+    var starY = Math.random() * -(h * 3) - (h / 2);
     var starDx = (Math.random() - 0.5) * .15;
     var starDy = Math.random() * .5;
 
     starArray.push(new Star(starX, starY, starDx, starDy, starRadius));
   }
-
-  // Configure ship
-  shipArray = [];
-  var shipWidth = 115;
-  var shipHeight = 184;
-  var shipStart = 25;
-  var shipX = (innerWidth / 2) - (shipWidth / 2);
-  var shipY = (innerHeight - shipHeight) - shipStart;
-  var shipDy = .5;
-
-  shipArray.push(new Ship(shipX, shipY, shipDy, shipHeight));
 }
 
 // Begin the canvas sequence
@@ -128,17 +151,28 @@ function draw() {
   requestAnimationFrame(draw);
 
   // Clear canvas to prevent objects from the previous frames from being displayed
-  c.clearRect(0, 0, innerWidth, innerHeight);
+  c.clearRect(0, 0, w, h);
 
   // Draw stars
   for (var i = 0; i < starArray.length; i++) {
     starArray[i].update();
   }
 
-  // Draw ship
-  for (var i = 0; i < shipArray.length; i++) {
-    shipArray[i].update();
+  // Ship rotation
+  if (keys[37]) ship.r -= 0.05;
+  if (keys[39]) ship.r += 0.05;
+
+  // Ship thrust
+  if (keys[38]) {
+    ship.ax = Math.cos(ship.r) * 0.05;
+    ship.ay = Math.sin(ship.r) * 0.05;
+  } else {
+    ship.ax = ship.ay = 0;
   }
+
+  // Friction is applied inside the updatePosition function
+  updateShipPosition(ship);
+  ship.draw();
 }
 
 // Start
