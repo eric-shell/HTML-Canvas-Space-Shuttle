@@ -87,6 +87,18 @@ var ship = {
 
 function updateShipPosition(obj) {
 
+  // Ship rotation
+  if (keys[37]) ship.r -= 0.05;
+  if (keys[39]) ship.r += 0.05;
+
+  // Ship thrust
+  if (keys[38]) {
+    ship.ax = Math.cos(ship.r) * 0.05;
+    ship.ay = Math.sin(ship.r) * 0.05;
+  } else {
+    ship.ax = ship.ay = 0;
+  }
+
   // Update velocity
   obj.vx += obj.ax;
   obj.vy += obj.ay;
@@ -110,6 +122,8 @@ function updateShipPosition(obj) {
   if (obj.y > h) {
     obj.y = 0;
   }
+
+  ship.draw();
 }
 
 var friction = 0.02;
@@ -153,26 +167,13 @@ function draw() {
   // Clear canvas to prevent objects from the previous frames from being displayed
   c.clearRect(0, 0, w, h);
 
-  // Draw stars
+  // Draw and update stars
   for (var i = 0; i < starArray.length; i++) {
     starArray[i].update();
   }
 
-  // Ship rotation
-  if (keys[37]) ship.r -= 0.05;
-  if (keys[39]) ship.r += 0.05;
-
-  // Ship thrust
-  if (keys[38]) {
-    ship.ax = Math.cos(ship.r) * 0.05;
-    ship.ay = Math.sin(ship.r) * 0.05;
-  } else {
-    ship.ax = ship.ay = 0;
-  }
-
-  // Friction is applied inside the updatePosition function
+  // Draw and update ship
   updateShipPosition(ship);
-  ship.draw();
 }
 
 // Start
